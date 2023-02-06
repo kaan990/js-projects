@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramdon color generator
+    </title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px;
+            text-align: center;
+            transition: all ease-in-out;
+        }
+        .box{
+            list-style: none;
+            margin: 10px;
+            width: 185px;
+            height: 188px;
+            box-shadow: 0px 4px 12px rgba(44, 38, 38, 0.397);
+            border-radius: 10px;
+        }
+        .hex{
+            text-align: center;
+        }
+        .color .container:hover{
+            transform: scale(1.5);
+        }
+        .color{
+            margin: auto;
+            margin-top: 5px;
+            border-radius: 10px;
+            width: 90%;
+            height: 85%;
+        }
+        .generator{
+            position: sticky;
+            margin: auto;
+            justify-content: center;
+            padding: 10px;
+            font-size: 25px;
+            border: none;
+            background-color: rgba(37, 21, 21, 0.856);
+            color:aliceblue;
+            border-radius: 10px;
+            left: 50%;
+            bottom: 5%;
+        }
+    </style>
+</head>
+<body>
+    <ul class="container">
+    </ul>
+    <button class="generator" id="btn">generator</button>
+
+    <!-- Internal javascript  -->
+    <script>
+        let parent_con = document.querySelector(".container");
+        let btn_gen = document.querySelector(".generator");
+        
+        var value = 18;
+    
+        let colorgen = () => {
+            // empty the inner html content 
+            parent_con.innerHTML ="";
+            for(var i=0; i<value; i++){
+            // Ramdon hex color generator code
+            var ram = Math.floor(Math.random() * 0xffffff).toString(16);
+            ram = `#${ram.padStart('6',0)}`;
+            // console.log(ram)
+            // Creating a li element
+            const list = document.createElement('li');
+            list.classList.add('box');
+            list.innerHTML = `<div class="color" style="background-color:${ram}"></div>
+            <span class="hex">${ram}</span>`;
+
+            // Calling the copy function to copy the text
+            list.addEventListener("click", ()=> copycolor(list, ram));
+
+            parent_con.appendChild(list)
+        }
+        }
+        colorgen();
+
+        // Copy color function is below
+        const copycolor = (list,ram)=>{
+            var copyElement = list.querySelector('.hex');
+            console.log(copyElement);
+            console.log("hii");
+            // copy the text
+            // Promise funtion => console.log(navigator.clipboard.writeText(ram));
+            navigator.clipboard.writeText(ram).then(()=>{
+                copyElement.innerHTML = "Copytext";
+                setTimeout(() => {
+                    copyElement.innerHTML = ram
+                }, 3000);
+            }).catch(()=>{ alert("Your can't copy the test")})
+        }
+        // Calling the function when button is click
+        
+        btn_gen.addEventListener("click", colorgen);
+    </script>
+</body>
+</html>
